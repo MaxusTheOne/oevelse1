@@ -16,7 +16,7 @@ export default function GuessInput(){
     const [algoDirection, setAlgoDirection] = useState<number>(0)
     useEffect(() => {
         setRandomNumber(Math.floor( Math.random()*100))
-        setAnswer([<p>Guess a number between 0 and 100</p>])
+        setAnswer([<p>Gæt et tal mellem 0 og 100</p>])
     }, []);
 
     const handleGuessChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,11 +44,11 @@ export default function GuessInput(){
             if (comp < 0) {
                 addToAnswer("Højere end " + guess);
                 setAlgoDirection(1);
-                setLowest(guess);
+                setLowest(guess +1);
             } else {
                 addToAnswer("Lavere end " + guess);
                 setAlgoDirection(-1);
-                setHighest(guess);
+                setHighest(guess -1);
             }
         }
         setLastGuess(guess);
@@ -78,18 +78,9 @@ export default function GuessInput(){
 
     const giveGuessHandler = () => {
         let newGuess: number;
-
         // give a random guess between last guess
-        if (lastGuess === 0) {
-        newGuess = getRandomInt(0, 100);
-        } else if (algoDirection === 1) {
-            newGuess = getRandomInt(lastGuess, highest -1);
-        } else if (algoDirection === -1) {
-            newGuess = getRandomInt(lowest +1, lastGuess);
-        } else {
-            newGuess = getRandomInt(0, 100);
-        }
-        
+        newGuess = Math.floor( (highest + lowest) / 2);
+
         setGuess(newGuess);
     }
 
@@ -100,7 +91,7 @@ export default function GuessInput(){
             <input name="guess" value={inputValue} placeholder="" type="number" onChange={handleGuessChange}></input>
             <button type="submit">Gæt</button>
         </form>
-        <button onClick={giveGuessHandler} >Guess for me!</button>
+        <button onClick={giveGuessHandler} >Gæt for mig!</button>
         </>
     );
 
